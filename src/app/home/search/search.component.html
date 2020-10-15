@@ -1,0 +1,186 @@
+<div class="container">
+  <mat-accordion>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>date_range</mat-icon>&nbsp;Par date
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="m-4">
+        <mat-form-field>
+          <input matInput [matDatepicker]="dp3" [formControl]="d" placeholder="Date" />
+          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker #dp3></mat-datepicker>
+        </mat-form-field>
+        &nbsp;
+        <button mat-raised-button color="accent" (click)="searchDate(d.value)">
+          <mat-icon>search</mat-icon>
+        </button>
+        <table class="table bg-white table-hover">
+          <tr>
+            <td>Montant</td>
+            <td>Date</td>
+            <td>Qui</td>
+          </tr>
+          <tr *ngFor="let o of listA">
+            <td>{{ o.montant }}</td>
+            <td>{{ o.date | date: "yyyy-MM-dd" }}</td>
+            <td>
+              {{o.personne ? "Client: " + o.personne.nom : ""}}
+              {{ o.societe ? "Societe: " + o.societe.nom : "" }}
+            </td>
+          </tr>
+        </table>
+        total: {{sumA}}
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>person_pin</mat-icon>&nbsp;Par bénificiaire
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="m-4">
+        <mat-form-field>
+          <input matInput #txt placeholder="beneficiaire" required>
+        </mat-form-field>
+        &nbsp;
+        <button mat-raised-button [disabled]="txt.value === ''" color="accent" (click)="searchBenifecaire(txt)">
+          <mat-icon>search</mat-icon>
+        </button>
+        <table class="table table-hover">
+          <tr>
+            <td>date</td>
+            <td>justificative</td>
+            <td>Montant</td>
+          </tr>
+          <tr *ngFor="let o of listD">
+            <td>{{ o.date | date: "yyyy-MM-dd" }}</td>
+            <td>{{ o.justificativ }}</td>
+            <td>{{ o.montant }}</td>
+          </tr>
+        </table>
+        total: {{sumD}}
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>domain</mat-icon>&nbsp;Par Société
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="m-4">
+        <mat-form-field>
+          <input matInput #txtSociete placeholder="societe" required>
+        </mat-form-field>
+        &nbsp;
+        <button mat-raised-button [disabled]="txtSociete.value === ''" color="accent"
+          (click)="searchSociete(txtSociete)">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <table class="table table-hover">
+          <tr>
+            <td>Montant</td>
+            <td>Date</td>
+          </tr>
+          <tr *ngFor="let o of listS">
+            <td>{{ o.montant }}</td>
+            <td>{{ o.date | date: "yyyy-MM-dd"}}</td>
+          </tr>
+        </table>
+        total: {{sumS}}
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>payment</mat-icon>&nbsp;Par banque
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="m-4">
+        <mat-form-field>
+          <input matInput #txtBanque placeholder="banque" required>
+        </mat-form-field>
+        &nbsp;
+        <button mat-raised-button [disabled]="txtBanque.value === ''" color="accent" (click)="searchBanque(txtBanque)">
+          <mat-icon>search</mat-icon>
+        </button>
+
+        <table class="table table-hover">
+          <tr>
+            <td>Montant</td>
+            <td>Date</td>
+            <td>cheque</td>
+            <td>Societé</td>
+          </tr>
+          <tr *ngFor="let o of listB">
+            <td>{{ o.montant }}</td>
+            <td>{{ o.date }}</td>
+            <td>{{ o.num }}</td>
+            <td>{{ o.nom }}</td>
+          </tr>
+        </table>
+        total: {{sumB}}
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>monetization_on</mat-icon>&nbsp;Par montant
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="m-4">
+        <mat-radio-group (change)="radioChange($event)">
+          <mat-radio-button checked="true" value="1">Alimentation</mat-radio-button>
+          &nbsp;
+          <mat-radio-button value="2">Depense</mat-radio-button>
+        </mat-radio-group>
+        <br>
+        <mat-form-field>
+          <input matInput #txtmontant placeholder="montant" required>
+        </mat-form-field>
+        &nbsp;
+        <button mat-raised-button [disabled]="txtmontant.value === ''" color="accent"
+          (click)="searchMontant(txtmontant)">
+          <mat-icon>search</mat-icon>
+        </button>
+        <ng-container *ngIf="isAlimentation;else elseTemplate">
+          <table class="table table-hover">
+            <tr>
+              <td>Date</td>
+              <td>Societé</td>
+              <td>Client</td>
+            </tr>
+            <tr *ngFor="let o of listM">
+              <td>{{ o.date | date: "yyyy-MM-dd"}}</td>
+              <td>{{ o.societe ?  o.societe : '-'}}</td>
+              <td>{{ o.client ?  o.client : '-' }}</td>
+            </tr>
+          </table>
+        </ng-container>
+
+        <ng-template #elseTemplate>
+          <table class="table table-hover">
+            <tr>
+              <td>Date</td>
+              <td>Montant</td>
+              <td>Beneficiaire</td>
+            </tr>
+            <tr *ngFor="let o of listD">
+              <td>{{ o.date | date: "yyyy-MM-dd"}}</td>
+              <td>{{ o.montant }}</td>
+              <td>{{ o.beneficiaire }}</td>
+            </tr>
+          </table>
+        </ng-template>
+
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

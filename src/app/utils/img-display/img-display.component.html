@@ -1,0 +1,5 @@
+<div class="item" [ngStyle]="{'border-radius': radius, 'border': border}">
+  <!-- <div class="example-loading-shade" *ngIf="isImageLoading"></div> class="image-responsive" -->
+  <img (error)="imgError(im)" [src]="img" #im class="image-responsive"
+  [ngStyle]="{'width': width, 'height': height, 'border-radius': radius, 'padding-right': paddingRight}">
+</div>

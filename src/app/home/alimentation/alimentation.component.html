@@ -1,0 +1,101 @@
+<div class="container">
+  <mat-card>
+    <mat-radio-group (change)="radioChange($event)">
+      <mat-radio-button value="2">Societe</mat-radio-button>
+      &nbsp;
+      <mat-radio-button checked=true value="1">Client</mat-radio-button>
+    </mat-radio-group>
+    <form [formGroup]="myForm">
+      <div class="row justify-content-center mt-2 mb-2">
+        <div class="col-md-5">
+          <!-- <div formGroupName="societe"> -->
+            <mat-form-field>
+              <mat-select placeholder="Societe" formControlName="idSociete">
+                <mat-option value="">...</mat-option>
+                <mat-option *ngFor="let o of societes | async" [value]="o.id">{{o.nom}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          <!-- </div> -->
+          <div formGroupName="cheque">
+            <mat-form-field>
+              <input matInput formControlName="num" placeholder="Référence">
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput formControlName="banque" placeholder="Banque">
+            </mat-form-field>
+
+          </div>
+        </div>
+        <mat-divider [vertical]="true"></mat-divider>
+        <div class="col-md-5">
+          <div formGroupName="personne">
+            <mat-form-field>
+              <input matInput formControlName="nom" placeholder="Nom complete" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let o of filteredOptions | async" [value]="o">
+                  {{o.nom}} / {{o.tel}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+              <input matInput formControlName="tel" placeholder="tel">
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-divider [inset]="true"></mat-divider>
+        <br>
+        <mat-form-field>
+          <input matInput type="number" formControlName="montant" placeholder="Montant">
+        </mat-form-field>
+      </div>
+
+    </form>
+    <!-- <br>
+    isPersonne : {{isPersonne}}
+    <br>
+    {{myForm.status | json}} -->
+    <!-- <br>
+    {{myForm.value | json}} -->
+    <!-- <h1>Nouveau entree le {{date | date: "dd MM yyyy-HH:mm"}}</h1> -->
+    <!-- <div class="text">
+      <div *ngIf="myForm.value as o">
+        <div class="row ml-5 m-2">
+          <div class="col-md-3">
+            <h5>Type client :</h5>
+          </div>
+          <div class="col-md-8">
+            {{o.personne ? 'Personne: ' + o.personne.nom +', tel: '+o.personne.tel: ''}}
+            {{!o.personne ? 'Societe:' + societe.nom +', tel: '+societe.tel: ''}}
+          </div>
+        </div>
+
+        <div class="row ml-5 m-2">
+          <div class="col-md-3">
+            <h5>Mode payment</h5>
+          </div>
+          <div class="col-md-8">
+            {{o.cheque ? 'Cheque N°:'+o.cheque.num+', banque: '+o.cheque.banque+',montant: '+ o.montant: ''}}
+            {{o.personne ? 'Espece montant: ' + o.montant: ''}}
+          </div>
+        </div>
+        <div class="row ml-5 m-2">
+          <div class="col">
+            Total : {{o.montant}}&nbsp;
+            le {{ o.date | date: "dd-MM-yyyy"}}
+          </div>
+        </div>
+      </div>
+    </div> -->
+        <div>
+          <button mat-raised-button [disabled]="myForm.invalid" (click)="submit(myForm.value)" type="button"
+            color="primary">Valider</button>
+            &nbsp;
+            <button mat-raised-button (click)="reset()" type="button">Annulter</button>
+        </div>
+    <!-- <mat-card style="border-radius: 0;">
+  -->
+  </mat-card>
+  <app-entree [update]="update"></app-entree>
+</div>

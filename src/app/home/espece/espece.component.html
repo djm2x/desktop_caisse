@@ -1,0 +1,48 @@
+<div class="container">
+    <mat-card style="border-radius: 0;">
+      <form [formGroup]="myForm" (ngSubmit)="submit(myForm)">
+        <div class="row">
+          <div class="ml-3">
+            <mat-form-field>
+              <input matInput formControlName="montant" placeholder="montant" required>
+            </mat-form-field>
+            
+          </div>
+          &nbsp;
+          <div class="ml-3 mt-3">
+            <button mat-raised-button type="submit" color="primary" [disabled]="!myForm.valid">
+              <mat-icon>{{!isEdit ? 'add' : 'create'}}</mat-icon>
+            </button>
+            &nbsp;
+            <button mat-stroked-button type="button" (click)="myForm.reset()">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+        </div>
+      </form>
+    </mat-card>
+    <mat-card class=" mt-4">
+    <table class="table table-hover">
+      <tr>
+        <td> id</td>
+        <td>montant</td>
+        <td>option</td>
+      </tr>
+      <tr *ngFor="let o of list">
+        <td>{{o.id}}</td>        
+        <td>{{o.montant}}</td>
+        <td>
+            <button mat-icon-button color="primary" (click)="edit(o)">
+                <mat-icon>create</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="delete(o)">
+                <mat-icon>delete_sweep</mat-icon>
+              </button>
+        </td>
+      </tr>
+    </table>
+  </mat-card>
+
+  <app-child [cIn]="c"></app-child>
+  </div>

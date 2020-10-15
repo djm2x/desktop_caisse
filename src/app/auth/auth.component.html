@@ -1,0 +1,16 @@
+<header>
+  <mat-toolbar color="accent" style="height: 50px" class="fixed-top">
+    <button mat-button class="largeBtn" [routerLink]="['/home']"
+      routerLinkActive="router-link-active">
+      <mat-icon>home</mat-icon>
+    </button>
+    
+    <span class="example-spacer"></span>
+    <button mat-button class="largeBtn" [routerLink]="['/admin']" routerLinkActive="router-link-active">
+      <mat-icon>dashboard</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>
+<main style="margin-top: 50px;">
+  <router-outlet></router-outlet>
+</main>

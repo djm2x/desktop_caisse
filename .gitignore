@@ -1,0 +1,9 @@
+
+**/e2e
+**/.vscode
+**/node_modules
+**/*.zip
+
+build**/
+
+**/dist

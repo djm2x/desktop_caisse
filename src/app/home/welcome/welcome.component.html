@@ -1,0 +1,21 @@
+<div class="container mt-2 mb-3">
+  <div class="row justify-content-center mt-2 mb-2">
+    <div class="col" *ngFor="let o of list; let i = index">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{o.name}}</mat-card-title>
+          <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+        </mat-card-header>
+        <mat-card-content class="text-center" style="padding: 15px;">
+          <p class="card-text">{{ (o.api | async) ? (o.api | async) : 'chargement...'}}</p>
+          <!-- <ng-container *ngIf="o.api | async as i; else elseTemplate">
+            <p class="card-text">{{ i }}</p>
+          </ng-container>
+          <ng-template #elseTemplate>
+            <p class="card-text">0</p>
+          </ng-template> -->
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

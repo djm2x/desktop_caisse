@@ -1,0 +1,158 @@
+<header>
+  <mat-toolbar color="primary" style="height: 50px;-webkit-app-region: drag;" class="fixed-top">
+    <button mat-button (click)="snav.toggle()" routerLinkActive="active">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!-- <button mat-button class="largeBtn" [routerLink]="['/home']" routerLinkActive="router-link-active">
+      <mat-icon>home</mat-icon>
+    </button> -->
+    <!-- <button mat-button class="largeBtn" [matMenuTriggerFor]="menu">
+      <mat-icon>border_color</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['/home/depense']" routerLinkActive="active">
+        <mat-icon>library_books</mat-icon>
+        <span>Depense</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>library_books</mat-icon>
+        <span>test</span>
+      </button>
+    </mat-menu> -->
+    <app-loader class="ml-2"></app-loader>
+    <span class="example-spacer"></span>
+    <mat-icon>attach_money</mat-icon> {{montantCaisse | async}}
+    <ng-container *ngIf="!mobileQuery.matches">
+      <ng-container *ngIf="isConnected; else elseTemplate">
+        <!-- <button mat-button class="largeBtn" [matMenuTriggerFor]="menu">
+          {{user.fullName}}&nbsp;
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/home/account']" [queryParams]="{ idUser: user.id}"
+            routerLinkActive="active">
+            <mat-icon>account_box</mat-icon>
+            <span>Mon compte</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item [routerLink]="['/home']" (click)="disconnect()">
+            <mat-icon>clear</mat-icon>
+            <span>Déconnexion</span>
+          </button>
+        </mat-menu> -->
+        <!-- <button class="ml-3" mat-button [routerLink]="['/home']" (click)="disconnect()" routerLinkActive="active">
+          <mat-icon>clear</mat-icon>
+        </button> -->
+      </ng-container>
+      <ng-template #elseTemplate>
+        <!-- <button mat-button class="largeBtn" [routerLink]="['/auth']" routerLinkActive="active">
+          <mat-icon>vpn_key</mat-icon>
+        </button> -->
+      </ng-template>
+
+    </ng-container>
+    <button mat-raised-button class="ml-5" (click)="do('min')" style="border-radius: 0;margin-top: -14px">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <button mat-raised-button class="ml-2" (click)="do('max')" style="border-radius: 0;margin-top: -14px;">
+      <mat-icon style="transform: scale(-1, -1);">filter_none</mat-icon>
+    </button>
+    <button mat-raised-button class="ml-2" (click)="do('close')" style="border-radius: 0;margin-top: -14px">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>
+<mat-sidenav-container #sidenav class="example-sidenav-container" style=" height: 100%;">
+  <mat-sidenav  #snav [mode]="(!mobileQuery.matches) ? 'side' : 'over'" [opened]="opened && !mobileQuery.matches"
+    [fixedInViewport]="true" fixedTopGap="50" style="box-shadow: 2px 2px 10px 1px rgba(0,0,0,.2);">
+    <mat-nav-list class="list" style="width: 180px; padding: 0;">
+      <mat-divider></mat-divider>
+      <mat-list-item [routerLink]="['/home/welcome']" (click)="currentSection = '/home/welcome'"
+        [style.background-color]="(currentSection === '/home/welcome') ? 'rgba(73, 255, 185, 0.534)' : ''">
+        <i class="fas fa-chart-line icon-size"></i>
+        <mat-icon>dashboard</mat-icon>&nbsp;
+        <span>Dash-board</span>
+        <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+      </mat-list-item>
+    </mat-nav-list>
+    <mat-accordion>
+      <mat-expansion-panel class="override" expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>work</mat-icon>&nbsp;Action
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <mat-nav-list class="list ml-4" style="width: 180px; padding: 0;">
+          <mat-list-item [routerLink]="['/home/alimentation']" (click)="currentSection = '/home/alimentation'"
+            [style.background-color]="(currentSection === '/home/alimentation') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <mat-icon>attach_money</mat-icon>&nbsp;
+            <span>Alimentation</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+          <!-- <mat-divider></mat-divider> -->
+          <mat-list-item [routerLink]="['/home/depense']" (click)="currentSection = '/home/depense'"
+            [style.background-color]="(currentSection === '/home/depense') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <mat-icon>money_off</mat-icon>&nbsp;
+            <span>Depense</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+          <mat-list-item [routerLink]="['/home/societe']" (click)="currentSection = '/home/societe'"
+            [style.background-color]="(currentSection === '/home/societe') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <mat-icon>domain</mat-icon>&nbsp;
+            <span>Societe</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+          <mat-list-item [routerLink]="['/home/personne']" (click)="currentSection = '/home/personne'"
+            [style.background-color]="(currentSection === '/home/personne') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <mat-icon>person</mat-icon>&nbsp;
+            <span>Client</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+          <mat-list-item [routerLink]="['/home/search']" (click)="currentSection = '/home/search'"
+            [style.background-color]="(currentSection === '/home/search') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <mat-icon>search</mat-icon>&nbsp;
+            <span>Recherche</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-expansion-panel>
+      <!-- <mat-expansion-panel class="override" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>warning</mat-icon>&nbsp;
+            Test
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-nav-list class="list" style="width: 180px; padding: 0;">
+          <mat-divider></mat-divider>
+
+          <mat-list-item [routerLink]="['/home/espece']" (click)="currentSection = '/home/espece'"
+          [style.background-color]="(currentSection === '/home/espece') ? 'rgba(73, 255, 185, 0.534)' : ''">
+          <span>espece</span>
+          <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+        </mat-list-item>
+          <mat-list-item [routerLink]="['/home/test']" (click)="currentSection = '/home/test'"
+            [style.background-color]="(currentSection === '/home/test') ? 'rgba(73, 255, 185, 0.534)' : ''">
+            <span>test</span>
+            <span style="border-bottom: 5px solid rgba(73, 255, 185, 0.534);"></span>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-expansion-panel> -->
+    </mat-accordion>
+    <button #btndev mat-button (click)="devTools()" style="position: absolute;bottom: 2px;left: 53px;">DEV</button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main style="margin-top: 65px;" [@routerTransition]="getState(o)">
+      <router-outlet #o="outlet"></router-outlet>
+    </main>
+
+    <!-- <footer>
+      <mat-toolbar class="mt-2 text" color="primary">
+        <mat-toolbar-row style="height: 70px">
+          <span style="margin-left: auto; margin-right: auto;"> © {{ d | date:"dd/MMMM/yyyy" }} - Yaasin MOURABIT</span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+    </footer> -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
