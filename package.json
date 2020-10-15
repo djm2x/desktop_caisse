@@ -24,7 +24,7 @@
     "pkg": "electron-packager electron-js portable5",
     "all": "npm run prod && npm run build",
     "init": "git init && git remote add origin https://github.com/djm2x/desktop_caisse.git",
-    "push": "git add . && git commit -m \"change somethings\" && git push -u origin master",
+    "push": "git add . && git commit -m \"change something\" && git push -u origin master",
     "t": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
